@@ -49,8 +49,6 @@
       console.log(trainInfo.time);
       console.log(trainInfo.frequency);
 
-      alert("Train successfully added.");
-
       var trainName = $("#trainName").val("");
       var trainDestination = $("#trainDestination").val("");
       var trainTime = $("#trainTime").val("");
@@ -59,16 +57,16 @@
 
 database.ref().on("child_added", function(childSnapshot){
   var trainName = childSnapshot.val().name;
-  var trainDestination = childSnapshot.val(). destination;
+  var trainDestination = childSnapshot.val().destination;
   var trainFrequency = childSnapshot.val().frequency;
   
-  var format = "h:mm";
-  
+  var format = 'hh:mm a';
+
   var trainTime = childSnapshot.val().time;
   var trainTimeConversion = moment(trainTime, format);
-  var trainTimeHTML = trainTimeConversion.toNow();
+  var trainTimeHTML = moment(trainTimeConversion).format('hh:mm a');
 
-  var trainArrival = moment(trainFrequency, format);
+  var trainArrival = moment(trainTimeConversion).toNow('LT');
   
   var newRow = $("<tr>").append(
     $("<td>").text(trainName),
